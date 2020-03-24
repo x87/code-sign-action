@@ -13,6 +13,9 @@ inputs:
   recursive:
     description: 'Recursively search for supported files.'
     required: false
+  password:
+    description: 'The password'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'

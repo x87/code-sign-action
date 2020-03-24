@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dlemstra/code-sign-action.git"
+    "url": "git+https://github.com/DanaBear/code-sign-action.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dlemstra/code-sign-action/issues"
+    "url": "https://github.com/DanaBear/code-sign-action/issues"
   },
-  "homepage": "https://github.com/dlemstra/code-sign-action#readme",
+  "homepage": "https://github.com/DanaBear/code-sign-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.0"
   },

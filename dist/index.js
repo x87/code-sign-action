@@ -1,1 +1,559 @@
-module.exports=function(e,t){"use strict";var n={};function __webpack_require__(t){if(n[t]){return n[t].exports}var r=n[t]={i:t,l:false,exports:{}};e[t].call(r.exports,r,r.exports,__webpack_require__);r.l=true;return r.exports}__webpack_require__.ab=__dirname+"/";function startup(){return __webpack_require__(526)}return startup()}({87:function(e){e.exports=require("os")},129:function(e){e.exports=require("child_process")},211:function(e){e.exports=require("https")},431:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:true});const r=n(87);function issueCommand(e,t,n){const o=new Command(e,t,n);process.stdout.write(o.toString()+r.EOL)}t.issueCommand=issueCommand;function issue(e,t=""){issueCommand(e,{},t)}t.issue=issue;const o="::";class Command{constructor(e,t,n){if(!e){e="missing.command"}this.command=e;this.properties=t;this.message=n}toString(){let e=o+this.command;if(this.properties&&Object.keys(this.properties).length>0){e+=" ";for(const t in this.properties){if(this.properties.hasOwnProperty(t)){const n=this.properties[t];if(n){e+=`${t}=${escape(`${n||""}`)},`}}}}e+=o;const t=`${this.message||""}`;e+=escapeData(t);return e}}function escapeData(e){return e.replace(/\r/g,"%0D").replace(/\n/g,"%0A")}function escape(e){return e.replace(/\r/g,"%0D").replace(/\n/g,"%0A").replace(/]/g,"%5D").replace(/;/g,"%3B")}},470:function(e,t,n){"use strict";var r=this&&this.__awaiter||function(e,t,n,r){function adopt(e){return e instanceof n?e:new n(function(t){t(e)})}return new(n||(n=Promise))(function(n,o){function fulfilled(e){try{step(r.next(e))}catch(e){o(e)}}function rejected(e){try{step(r["throw"](e))}catch(e){o(e)}}function step(e){e.done?n(e.value):adopt(e.value).then(fulfilled,rejected)}step((r=r.apply(e,t||[])).next())})};Object.defineProperty(t,"__esModule",{value:true});const o=n(431);const s=n(87);const i=n(622);var u;(function(e){e[e["Success"]=0]="Success";e[e["Failure"]=1]="Failure"})(u=t.ExitCode||(t.ExitCode={}));function exportVariable(e,t){process.env[e]=t;o.issueCommand("set-env",{name:e},t)}t.exportVariable=exportVariable;function setSecret(e){o.issueCommand("add-mask",{},e)}t.setSecret=setSecret;function addPath(e){o.issueCommand("add-path",{},e);process.env["PATH"]=`${e}${i.delimiter}${process.env["PATH"]}`}t.addPath=addPath;function getInput(e,t){const n=process.env[`INPUT_${e.replace(/ /g,"_").toUpperCase()}`]||"";if(t&&t.required&&!n){throw new Error(`Input required and not supplied: ${e}`)}return n.trim()}t.getInput=getInput;function setOutput(e,t){o.issueCommand("set-output",{name:e},t)}t.setOutput=setOutput;function setFailed(e){process.exitCode=u.Failure;error(e)}t.setFailed=setFailed;function debug(e){o.issueCommand("debug",{},e)}t.debug=debug;function error(e){o.issue("error",e)}t.error=error;function warning(e){o.issue("warning",e)}t.warning=warning;function info(e){process.stdout.write(e+s.EOL)}t.info=info;function startGroup(e){o.issue("group",e)}t.startGroup=startGroup;function endGroup(){o.issue("endgroup")}t.endGroup=endGroup;function group(e,t){return r(this,void 0,void 0,function*(){startGroup(e);let n;try{n=yield t()}finally{endGroup()}return n})}t.group=group;function saveState(e,t){o.issueCommand("save-state",{name:e},t)}t.saveState=saveState;function getState(e){return process.env[`STATE_${e}`]||""}t.getState=getState},526:function(e,t,n){"use strict";var r=this&&this.__await||function(e){return this instanceof r?(this.v=e,this):new r(e)};var o=this&&this.__asyncValues||function(e){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var t=e[Symbol.asyncIterator],n;return t?t.call(e):(e=typeof __values==="function"?__values(e):e[Symbol.iterator](),n={},verb("next"),verb("throw"),verb("return"),n[Symbol.asyncIterator]=function(){return this},n);function verb(t){n[t]=e[t]&&function(n){return new Promise(function(r,o){n=e[t](n),settle(r,o,n.done,n.value)})}}function settle(e,t,n,r){Promise.resolve(r).then(function(t){e({value:t,done:n})},t)}};var s=this&&this.__asyncDelegator||function(e){var t,n;return t={},verb("next"),verb("throw",function(e){throw e}),verb("return"),t[Symbol.iterator]=function(){return this},t;function verb(o,s){t[o]=e[o]?function(t){return(n=!n)?{value:r(e[o](t)),done:o==="return"}:s?s(t):t}:s}};var i=this&&this.__asyncGenerator||function(e,t,n){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var o=n.apply(e,t||[]),s,i=[];return s={},verb("next"),verb("throw"),verb("return"),s[Symbol.asyncIterator]=function(){return this},s;function verb(e){if(o[e])s[e]=function(t){return new Promise(function(n,r){i.push([e,t,n,r])>1||resume(e,t)})}}function resume(e,t){try{step(o[e](t))}catch(e){settle(i[0][3],e)}}function step(e){e.value instanceof r?Promise.resolve(e.value.v).then(fulfill,reject):settle(i[0][2],e)}function fulfill(e){resume("next",e)}function reject(e){resume("throw",e)}function settle(e,t){if(e(t),i.shift(),i.length)resume(i[0][0],i[0][1])}};var u=this&&this.__importStar||function(e){if(e&&e.__esModule)return e;var t={};if(e!=null)for(var n in e)if(Object.hasOwnProperty.call(e,n))t[n]=e[n];t["default"]=e;return t};var c=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:true});const a=u(n(470));const f=n(747);const l=n(747);const p=c(n(211));const d=c(n(622));const m=c(n(669));const g=n(129);const h=n(765);const v=m.default.promisify(g.exec);const y=h.env["TEMP"]+"\\certificate.pfx";const w=h.env["TEMP"]+"\\nuget.exe";const _="http://timestamp.digicert.com";const b="C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe";const x=[".dll",".exe",".sys",".vxd",".msix",".msixbundle",".appx",".appxbundle",".msi",".msp",".msm",".cab",".ps1",".psm1"];function sleep(e){if(e>0)console.log(`Waiting for ${e} seconds.`);return new Promise(t=>setTimeout(t,e*1e3))}async function createCertificatePfx(){const e=a.getInput("certificate");const t=Buffer.from(e,"base64");if(t.length==0){console.log('The value for "certificate" is not set.');return false}console.log(`Writing ${t.length} bytes to ${y}.`);await f.promises.writeFile(y,t);return true}async function downloadNuGet(){return new Promise(e=>{if(l.existsSync(w)){e();return}console.log(`Downloading nuget.exe.`);const t=l.createWriteStream(w);p.default.get("https://dist.nuget.org/win-x86-commandline/latest/nuget.exe",n=>{n.pipe(t);t.on("finish",function(){t.close();e()})})})}async function signWithSigntool(e){try{const{stdout:t}=await v(`"${b}" sign /f ${y} /tr ${_} /td sha256 /fd sha256 ${e}`);console.log(t);return true}catch(e){console.log(e.stdout);console.log(e.stderr);return false}}async function signNupkg(e){await downloadNuGet();try{const{stdout:t}=await v(`"${w}" sign ${e} -CertificatePath ${y} -Timestamper ${_}`);console.log(t);return true}catch(e){console.log(e.stdout);console.log(e.stderr);return false}}async function trySignFile(e){console.log(`Signing ${e}.`);const t=d.default.extname(e);for(let n=0;n<10;n++){await sleep(n);if(x.includes(t)){if(await signWithSigntool(e))return}else if(t==".nupkg"){if(await signNupkg(e))return}}throw`Failed to sign '${e}'.`}function getFiles(e,t){return i(this,arguments,function*getFiles_1(){const n=yield r(f.promises.readdir(e));for(const i of n){const n=`${e}/${i}`;const u=yield r(f.promises.stat(n));if(u.isFile()){const e=d.default.extname(i);if(x.includes(e)||e==".nupkg")yield yield r(n)}else if(u.isDirectory()&&t){yield r(yield*s(o(getFiles(n,t))))}}})}async function signFiles(){var e,t;const n=a.getInput("folder",{required:true});const r=a.getInput("recursive")=="true";try{for(var s=o(getFiles(n,r)),i;i=await s.next(),!i.done;){const e=i.value;await trySignFile(e)}}catch(t){e={error:t}}finally{try{if(i&&!i.done&&(t=s.return))await t.call(s)}finally{if(e)throw e.error}}}async function run(){try{if(await createCertificatePfx())await signFiles()}catch(e){a.setFailed(`Action failed with error: ${e}`)}}run()},622:function(e){e.exports=require("path")},669:function(e){e.exports=require("util")},747:function(e){e.exports=require("fs")},765:function(e){e.exports=require("process")}});
+module.exports =
+/******/ (function(modules, runtime) { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	__webpack_require__.ab = __dirname + "/";
+/******/
+/******/ 	// the startup function
+/******/ 	function startup() {
+/******/ 		// Load entry module and return exports
+/******/ 		return __webpack_require__(671);
+/******/ 	};
+/******/
+/******/ 	// run startup
+/******/ 	return startup();
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 87:
+/***/ (function(module) {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 129:
+/***/ (function(module) {
+
+module.exports = require("child_process");
+
+/***/ }),
+
+/***/ 211:
+/***/ (function(module) {
+
+module.exports = require("https");
+
+/***/ }),
+
+/***/ 622:
+/***/ (function(module) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 669:
+/***/ (function(module) {
+
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 671:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
+var __asyncDelegator = (this && this.__asyncDelegator) || function (o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+};
+var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const core = __importStar(__webpack_require__(694));
+const fs_1 = __webpack_require__(747);
+const fs_2 = __webpack_require__(747);
+const https_1 = __importDefault(__webpack_require__(211));
+const path_1 = __importDefault(__webpack_require__(622));
+const util_1 = __importDefault(__webpack_require__(669));
+const child_process_1 = __webpack_require__(129);
+const process_1 = __webpack_require__(765);
+const asyncExec = util_1.default.promisify(child_process_1.exec);
+const certificateFileName = process_1.env['TEMP'] + '\\certificate.pfx';
+const nugetFileName = process_1.env['TEMP'] + '\\nuget.exe';
+const timestampUrl = 'http://timestamp.digicert.com';
+const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
+const signtoolFileExtensions = [
+    '.dll', '.exe', '.sys', '.vxd',
+    '.msix', '.msixbundle', '.appx',
+    '.appxbundle', '.msi', '.msp',
+    '.msm', '.cab', '.ps1', '.psm1'
+];
+function sleep(seconds) {
+    if (seconds > 0)
+        console.log(`Waiting for ${seconds} seconds.`);
+    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+}
+async function createCertificatePfx() {
+    const base64Certificate = core.getInput('certificate');
+    const certificate = Buffer.from(base64Certificate, 'base64');
+    if (certificate.length == 0) {
+        console.log('The value for "certificate" is not set.');
+        return false;
+    }
+    console.log(`Writing ${certificate.length} bytes to ${certificateFileName}.`);
+    await fs_1.promises.writeFile(certificateFileName, certificate);
+    return true;
+}
+async function downloadNuGet() {
+    return new Promise(resolve => {
+        if (fs_2.existsSync(nugetFileName)) {
+            resolve();
+            return;
+        }
+        console.log(`Downloading nuget.exe.`);
+        const file = fs_2.createWriteStream(nugetFileName);
+        https_1.default.get('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', (response) => {
+            response.pipe(file);
+            file.on('finish', function () {
+                file.close();
+                resolve();
+            });
+        });
+    });
+}
+async function signWithSigntool(fileName) {
+    try {
+        const password = core.getInput('password');
+        var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`;
+        if (password != '') {
+            console.log("Adding password");
+            command = command + ` /p ${password}`;
+        }
+        console.log("Final command: " + command);
+        const { stdout } = await asyncExec(command);
+        console.log(stdout);
+        return true;
+    }
+    catch (err) {
+        console.log(err.stdout);
+        console.log(err.stderr);
+        return false;
+    }
+}
+async function signNupkg(fileName) {
+    await downloadNuGet();
+    try {
+        const { stdout } = await asyncExec(`"${nugetFileName}" sign ${fileName} -CertificatePath ${certificateFileName} -Timestamper ${timestampUrl}`);
+        console.log(stdout);
+        return true;
+    }
+    catch (err) {
+        console.log(err.stdout);
+        console.log(err.stderr);
+        return false;
+    }
+}
+async function trySignFile(fileName) {
+    console.log(`Signing ${fileName}.`);
+    const extension = path_1.default.extname(fileName);
+    for (let i = 0; i < 10; i++) {
+        await sleep(i);
+        if (signtoolFileExtensions.includes(extension)) {
+            if (await signWithSigntool(fileName))
+                return;
+        }
+        else if (extension == '.nupkg') {
+            if (await signNupkg(fileName))
+                return;
+        }
+    }
+    throw `Failed to sign '${fileName}'.`;
+}
+function getFiles(folder, recursive) {
+    return __asyncGenerator(this, arguments, function* getFiles_1() {
+        const files = yield __await(fs_1.promises.readdir(folder));
+        for (const file of files) {
+            const fullPath = `${folder}/${file}`;
+            const stat = yield __await(fs_1.promises.stat(fullPath));
+            if (stat.isFile()) {
+                const extension = path_1.default.extname(file);
+                if (signtoolFileExtensions.includes(extension) || extension == '.nupkg')
+                    yield yield __await(fullPath);
+            }
+            else if (stat.isDirectory() && recursive) {
+                yield __await(yield* __asyncDelegator(__asyncValues(getFiles(fullPath, recursive))));
+            }
+        }
+    });
+}
+async function signFiles() {
+    var e_1, _a;
+    const folder = core.getInput('folder', { required: true });
+    const recursive = core.getInput('recursive') == 'true';
+    try {
+        for (var _b = __asyncValues(getFiles(folder, recursive)), _c; _c = await _b.next(), !_c.done;) {
+            const file = _c.value;
+            await trySignFile(file);
+        }
+    }
+    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) await _a.call(_b);
+        }
+        finally { if (e_1) throw e_1.error; }
+    }
+}
+async function run() {
+    try {
+        if (await createCertificatePfx())
+            await signFiles();
+    }
+    catch (err) {
+        core.setFailed(`Action failed with error: ${err}`);
+    }
+}
+run();
+
+
+/***/ }),
+
+/***/ 694:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const command_1 = __webpack_require__(761);
+const os = __webpack_require__(87);
+const path = __webpack_require__(622);
+/**
+ * The code to exit an action
+ */
+var ExitCode;
+(function (ExitCode) {
+    /**
+     * A code indicating that the action was successful
+     */
+    ExitCode[ExitCode["Success"] = 0] = "Success";
+    /**
+     * A code indicating that the action was a failure
+     */
+    ExitCode[ExitCode["Failure"] = 1] = "Failure";
+})(ExitCode = exports.ExitCode || (exports.ExitCode = {}));
+//-----------------------------------------------------------------------
+// Variables
+//-----------------------------------------------------------------------
+/**
+ * Sets env variable for this action and future actions in the job
+ * @param name the name of the variable to set
+ * @param val the value of the variable
+ */
+function exportVariable(name, val) {
+    process.env[name] = val;
+    command_1.issueCommand('set-env', { name }, val);
+}
+exports.exportVariable = exportVariable;
+/**
+ * Registers a secret which will get masked from logs
+ * @param secret value of the secret
+ */
+function setSecret(secret) {
+    command_1.issueCommand('add-mask', {}, secret);
+}
+exports.setSecret = setSecret;
+/**
+ * Prepends inputPath to the PATH (for this action and future actions)
+ * @param inputPath
+ */
+function addPath(inputPath) {
+    command_1.issueCommand('add-path', {}, inputPath);
+    process.env['PATH'] = `${inputPath}${path.delimiter}${process.env['PATH']}`;
+}
+exports.addPath = addPath;
+/**
+ * Gets the value of an input.  The value is also trimmed.
+ *
+ * @param     name     name of the input to get
+ * @param     options  optional. See InputOptions.
+ * @returns   string
+ */
+function getInput(name, options) {
+    const val = process.env[`INPUT_${name.replace(/ /g, '_').toUpperCase()}`] || '';
+    if (options && options.required && !val) {
+        throw new Error(`Input required and not supplied: ${name}`);
+    }
+    return val.trim();
+}
+exports.getInput = getInput;
+/**
+ * Sets the value of an output.
+ *
+ * @param     name     name of the output to set
+ * @param     value    value to store
+ */
+function setOutput(name, value) {
+    command_1.issueCommand('set-output', { name }, value);
+}
+exports.setOutput = setOutput;
+//-----------------------------------------------------------------------
+// Results
+//-----------------------------------------------------------------------
+/**
+ * Sets the action status to failed.
+ * When the action exits it will be with an exit code of 1
+ * @param message add error issue message
+ */
+function setFailed(message) {
+    process.exitCode = ExitCode.Failure;
+    error(message);
+}
+exports.setFailed = setFailed;
+//-----------------------------------------------------------------------
+// Logging Commands
+//-----------------------------------------------------------------------
+/**
+ * Writes debug message to user log
+ * @param message debug message
+ */
+function debug(message) {
+    command_1.issueCommand('debug', {}, message);
+}
+exports.debug = debug;
+/**
+ * Adds an error issue
+ * @param message error issue message
+ */
+function error(message) {
+    command_1.issue('error', message);
+}
+exports.error = error;
+/**
+ * Adds an warning issue
+ * @param message warning issue message
+ */
+function warning(message) {
+    command_1.issue('warning', message);
+}
+exports.warning = warning;
+/**
+ * Writes info to log with console.log.
+ * @param message info message
+ */
+function info(message) {
+    process.stdout.write(message + os.EOL);
+}
+exports.info = info;
+/**
+ * Begin an output group.
+ *
+ * Output until the next `groupEnd` will be foldable in this group
+ *
+ * @param name The name of the output group
+ */
+function startGroup(name) {
+    command_1.issue('group', name);
+}
+exports.startGroup = startGroup;
+/**
+ * End an output group.
+ */
+function endGroup() {
+    command_1.issue('endgroup');
+}
+exports.endGroup = endGroup;
+/**
+ * Wrap an asynchronous function call in a group.
+ *
+ * Returns the same type as the function itself.
+ *
+ * @param name The name of the group
+ * @param fn The function to wrap in the group
+ */
+function group(name, fn) {
+    return __awaiter(this, void 0, void 0, function* () {
+        startGroup(name);
+        let result;
+        try {
+            result = yield fn();
+        }
+        finally {
+            endGroup();
+        }
+        return result;
+    });
+}
+exports.group = group;
+//-----------------------------------------------------------------------
+// Wrapper action state
+//-----------------------------------------------------------------------
+/**
+ * Saves state for current action, the state can only be retrieved by this action's post job execution.
+ *
+ * @param     name     name of the state to store
+ * @param     value    value to store
+ */
+function saveState(name, value) {
+    command_1.issueCommand('save-state', { name }, value);
+}
+exports.saveState = saveState;
+/**
+ * Gets the value of an state set by this action's main execution.
+ *
+ * @param     name     name of the state to get
+ * @returns   string
+ */
+function getState(name) {
+    return process.env[`STATE_${name}`] || '';
+}
+exports.getState = getState;
+//# sourceMappingURL=core.js.map
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 761:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const os = __webpack_require__(87);
+/**
+ * Commands
+ *
+ * Command Format:
+ *   ##[name key=value;key=value]message
+ *
+ * Examples:
+ *   ##[warning]This is the user warning message
+ *   ##[set-secret name=mypassword]definitelyNotAPassword!
+ */
+function issueCommand(command, properties, message) {
+    const cmd = new Command(command, properties, message);
+    process.stdout.write(cmd.toString() + os.EOL);
+}
+exports.issueCommand = issueCommand;
+function issue(name, message = '') {
+    issueCommand(name, {}, message);
+}
+exports.issue = issue;
+const CMD_STRING = '::';
+class Command {
+    constructor(command, properties, message) {
+        if (!command) {
+            command = 'missing.command';
+        }
+        this.command = command;
+        this.properties = properties;
+        this.message = message;
+    }
+    toString() {
+        let cmdStr = CMD_STRING + this.command;
+        if (this.properties && Object.keys(this.properties).length > 0) {
+            cmdStr += ' ';
+            for (const key in this.properties) {
+                if (this.properties.hasOwnProperty(key)) {
+                    const val = this.properties[key];
+                    if (val) {
+                        // safely append the val - avoid blowing up when attempting to
+                        // call .replace() if message is not a string for some reason
+                        cmdStr += `${key}=${escape(`${val || ''}`)},`;
+                    }
+                }
+            }
+        }
+        cmdStr += CMD_STRING;
+        // safely append the message - avoid blowing up when attempting to
+        // call .replace() if message is not a string for some reason
+        const message = `${this.message || ''}`;
+        cmdStr += escapeData(message);
+        return cmdStr;
+    }
+}
+function escapeData(s) {
+    return s.replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+}
+function escape(s) {
+    return s
+        .replace(/\r/g, '%0D')
+        .replace(/\n/g, '%0A')
+        .replace(/]/g, '%5D')
+        .replace(/;/g, '%3B');
+}
+//# sourceMappingURL=command.js.map
+
+/***/ }),
+
+/***/ 765:
+/***/ (function(module) {
+
+module.exports = require("process");
+
+/***/ })
+
+/******/ });

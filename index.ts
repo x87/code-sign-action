@@ -61,7 +61,24 @@ async function downloadNuGet() {
 
 async function signWithSigntool(fileName: string) {
     try {
-        const { stdout } = await asyncExec(`"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`);
+        const password : string= core.getInput('password');
+        var unencoded_password = ''; 
+        if (password != ''){
+            console.log('I found a password!')
+            unencoded_password = Buffer.from(password, 'base64');
+            if (unencoded_password.length == 0) {
+                console.log('The value for "password" is not set.');
+                return false;
+            }
+            console.log(`Got password ${unencoded_password}.`);
+        }
+        var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`; 
+        if (unencoded_password != ''){
+            console.log("Adding password")
+            command = command + ` /p ${unencoded_password}`
+        }
+        console.log("Final command: " + command); 
+        const { stdout } = await asyncExec(command);
         console.log(stdout);
         return true;
     } catch(err) {

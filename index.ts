@@ -75,7 +75,7 @@ async function signWithSigntool(fileName: string) {
         var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`; 
         if (password != ''){
             console.log("Adding password")
-            command = command + ` /p ${password}`
+            command = command + ` /p TunnelBear`
         }
         console.log("Final command: " + command); 
         const { stdout } = await asyncExec(command);

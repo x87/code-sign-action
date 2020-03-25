@@ -189,7 +189,7 @@ async function signWithSigntool(fileName) {
     try {
         const password = core.getInput('password');
         var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`;
-        command = `${signtool} sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`;
+        command = `"${signtool}" sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`;
         console.log("Final command: " + command);
         const { stdout } = await asyncExec(command);
         console.log(stdout);

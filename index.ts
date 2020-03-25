@@ -88,7 +88,7 @@ async function signWithSigntool(fileName: string) {
         //     console.log(`Got password ${unencoded_password}.`);
         // }
         var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`; 
-        command = `${signtool} sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`
+        command = `"${signtool}" sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`
         // if (password != ''){
         //     console.log("Adding password")
         //     command = command + ` /p TunnelBear`

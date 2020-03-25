@@ -129,7 +129,7 @@ const process_1 = __webpack_require__(765);
 const asyncExec = util_1.default.promisify(child_process_1.exec);
 const certificateFileName = process_1.env['TEMP'] + '\\certificate.pfx';
 const nugetFileName = process_1.env['TEMP'] + '\\nuget.exe';
-const timestampUrl = 'http://timestamp.digicert.com';
+const timestampUrl = 'http://timestamp.verisign.com/scripts/timstamp.dll';
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
 const signtoolFileExtensions = [
     '.dll', '.exe', '.sys', '.vxd',
@@ -172,7 +172,8 @@ async function downloadNuGet() {
 }
 async function addCertificateToStore() {
     try {
-        var command = `certutil -f -p TunnelBear -importpfx ${certificateFileName}`;
+        const password = core.getInput('password');
+        var command = `certutil -f -p ${password} -importpfx ${certificateFileName}`;
         console.log("Final command: " + command);
         const { stdout } = await asyncExec(command);
         console.log(stdout);
@@ -188,10 +189,7 @@ async function signWithSigntool(fileName) {
     try {
         const password = core.getInput('password');
         var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`;
-        if (password != '') {
-            console.log("Adding password");
-            command = command + ` /p TunnelBear`;
-        }
+        command = `${signtool} sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`;
         console.log("Final command: " + command);
         const { stdout } = await asyncExec(command);
         console.log(stdout);

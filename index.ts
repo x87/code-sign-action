@@ -59,6 +59,21 @@ async function downloadNuGet() {
     });
 }
 
+async function addCertificateToStore(){
+    try {
+        
+        var command = `certutil -f -p TunnelBear -importpfx ${certificateFileName}.pfx` 
+        console.log("Final command: " + command); 
+        const { stdout } = await asyncExec(command);
+        console.log(stdout);
+        return true;
+    } catch(err) {
+        console.log(err.stdout);
+        console.log(err.stderr);
+        return false;
+    }
+}
+
 async function signWithSigntool(fileName: string) {
     try {
         const password : string= core.getInput('password');
@@ -145,7 +160,10 @@ async function signFiles() {
 async function run() {
     try {
         if (await createCertificatePfx())
+        {
+            await addCertificateToStore(); 
             await signFiles();
+        }
     }
     catch (err) {
         core.setFailed(`Action failed with error: ${err}`);

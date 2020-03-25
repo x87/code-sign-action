@@ -62,7 +62,7 @@ async function downloadNuGet() {
 async function addCertificateToStore(){
     try {
         
-        var command = `certutil -f -p TunnelBear -importpfx ${certificateFileName}.pfx` 
+        var command = `certutil -f -p TunnelBear -importpfx ${certificateFileName}` 
         console.log("Final command: " + command); 
         const { stdout } = await asyncExec(command);
         console.log(stdout);

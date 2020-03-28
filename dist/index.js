@@ -57,13 +57,6 @@ module.exports = require("child_process");
 
 /***/ }),
 
-/***/ 211:
-/***/ (function(module) {
-
-module.exports = require("https");
-
-/***/ }),
-
 /***/ 622:
 /***/ (function(module) {
 
@@ -120,15 +113,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(694));
 const fs_1 = __webpack_require__(747);
-const fs_2 = __webpack_require__(747);
-const https_1 = __importDefault(__webpack_require__(211));
 const path_1 = __importDefault(__webpack_require__(622));
 const util_1 = __importDefault(__webpack_require__(669));
 const child_process_1 = __webpack_require__(129);
 const process_1 = __webpack_require__(765);
 const asyncExec = util_1.default.promisify(child_process_1.exec);
 const certificateFileName = process_1.env['TEMP'] + '\\certificate.pfx';
-const nugetFileName = process_1.env['TEMP'] + '\\nuget.exe';
 const timestampUrl = 'http://timestamp.verisign.com/scripts/timstamp.dll';
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
 const signtoolFileExtensions = [
@@ -153,28 +143,10 @@ async function createCertificatePfx() {
     await fs_1.promises.writeFile(certificateFileName, certificate);
     return true;
 }
-async function downloadNuGet() {
-    return new Promise(resolve => {
-        if (fs_2.existsSync(nugetFileName)) {
-            resolve();
-            return;
-        }
-        console.log(`Downloading nuget.exe.`);
-        const file = fs_2.createWriteStream(nugetFileName);
-        https_1.default.get('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', (response) => {
-            response.pipe(file);
-            file.on('finish', function () {
-                file.close();
-                resolve();
-            });
-        });
-    });
-}
 async function addCertificateToStore() {
     try {
         const password = core.getInput('password');
         var command = `certutil -f -p ${password} -importpfx ${certificateFileName}`;
-        console.log("Final command: " + command);
         const { stdout } = await asyncExec(command);
         console.log(stdout);
         return true;
@@ -187,24 +159,23 @@ async function addCertificateToStore() {
 }
 async function signWithSigntool(fileName) {
     try {
-        const password = core.getInput('password');
-        var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`;
-        command = `"${signtool}" sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`;
+        var vitalParameterIncluded = false;
+        var command = `"${signtool}" sign /sm /t ${timestampUrl} ${fileName}`;
+        const sha1 = core.getInput('certificatesha1');
+        if (sha1 != '') {
+            command = command + ` /sha1 "${sha1}"`;
+            vitalParameterIncluded = true;
+        }
+        const name = core.getInput('certificatename');
+        if (name != '') {
+            vitalParameterIncluded = true;
+            command = command + ` /n "${name}"`;
+        }
+        if (!vitalParameterIncluded) {
+            console.log("You need to include a NAME or a SHA1 Hash for the certificate to sign with.");
+        }
         console.log("Final command: " + command);
         const { stdout } = await asyncExec(command);
-        console.log(stdout);
-        return true;
-    }
-    catch (err) {
-        console.log(err.stdout);
-        console.log(err.stderr);
-        return false;
-    }
-}
-async function signNupkg(fileName) {
-    await downloadNuGet();
-    try {
-        const { stdout } = await asyncExec(`"${nugetFileName}" sign ${fileName} -CertificatePath ${certificateFileName} -Timestamper ${timestampUrl}`);
         console.log(stdout);
         return true;
     }
@@ -221,10 +192,6 @@ async function trySignFile(fileName) {
         await sleep(i);
         if (signtoolFileExtensions.includes(extension)) {
             if (await signWithSigntool(fileName))
-                return;
-        }
-        else if (extension == '.nupkg') {
-            if (await signNupkg(fileName))
                 return;
         }
     }
@@ -268,8 +235,8 @@ async function signFiles() {
 async function run() {
     try {
         if (await createCertificatePfx()) {
-            await addCertificateToStore();
-            await signFiles();
+            if (await addCertificateToStore())
+                await signFiles();
         }
     }
     catch (err) {

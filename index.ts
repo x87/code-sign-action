@@ -54,7 +54,7 @@ async function signWithSigntool(fileName: string) {
     try {
         // var command = `"${signtool}" sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`
         var vitalParameterIncluded = false; 
-        var command = `"${signtool}" sign /sm /t ${timestampUrl} ${fileName}`
+        var command = `"${signtool}" sign /sm /t ${timestampUrl}`
         const sha1 : string= core.getInput('certificatesha1');
         if (sha1 != ''){
             command = command + ` /sha1 "${sha1}"`
@@ -68,6 +68,7 @@ async function signWithSigntool(fileName: string) {
         if (!vitalParameterIncluded){
             console.log("You need to include a NAME or a SHA1 Hash for the certificate to sign with.")
         }
+        command = command + ` ${fileName}`; 
         console.log("Final command: " + command); 
         const { stdout } = await asyncExec(command);
         console.log(stdout);

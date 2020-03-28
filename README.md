@@ -1,6 +1,6 @@
 # Code sign a file
 
-This action signs `.nupkg` files and files that are supported by `signtool.exe` with a code signing certificate. This action only works on Windows and that means it should run on `windows-latest`.
+This action signs files that are supported by `signtool.exe` with a code signing certificate that takes in a password. This action only works on Windows and that means it should run on `windows-latest`.
 
 ## Inputs
 
@@ -8,9 +8,25 @@ This action signs `.nupkg` files and files that are supported by `signtool.exe` 
 
 **Required** The base64 encoded certificate.
 
+### `password`
+
+**Required** Certificate Password. Used to add to the machine store. 
+
+### `certificatesha1`
+
+**Required** SHA1 hash for the certificate. You can obtain this from Microsoft Management Console after double clicking on your certificate (called Thumbprint). This and/or the `certificatename` is required for the signing to be successful. 
+
+### `certificatename`
+
+**Required** The name of the certificate. This and/or the `certificatesha1` is required for the signing to be successful. 
+
 ### `folder`
 
 **Required** The folder that contains the libraries to sign.
+
+### `recursive`
+
+**Optional** Recursively search for DLL files.
 
 ### `recursive`
 
@@ -21,9 +37,12 @@ This action signs `.nupkg` files and files that are supported by `signtool.exe` 
 ```
 runs-on: windows-latest
 steps:
-  uses: dlemstra/code-sign-action@v1
+  uses: DanaBear/code-sign-action@v1
   with:
     certificate: '${{ secrets.CERTIFICATE }}'
+    password: '${{ secrets.PASSWORD }}'
+    certificatesha1: '${{ secrets.CERTHASH }}'
+    certificatename: '${{ secrets.CERTNAME }}'
     folder: 'files'
     recursive: true
 ```

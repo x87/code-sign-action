@@ -1,3 +1,5 @@
+Thank you to [Dirk Lemstra](https://github.com/dlemstra/code-sign-action) for providing a base for me to create this action. 
+
 # Code sign a file
 
 This action signs files that are supported by `signtool.exe` with a code signing certificate that takes in a password. This action only works on Windows and that means it should run on `windows-latest`.
@@ -23,10 +25,6 @@ This action signs files that are supported by `signtool.exe` with a code signing
 ### `folder`
 
 **Required** The folder that contains the libraries to sign.
-
-### `recursive`
-
-**Optional** Recursively search for DLL files.
 
 ### `recursive`
 

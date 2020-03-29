@@ -39,7 +39,11 @@ async function createCertificatePfx() {
 async function addCertificateToStore(){
     try {
         const password : string= core.getInput('password');
-        var command = `certutil -f -p ${password} -importpfx ${certificateFileName}` 
+        var command = 'certutil'; 
+        if (password == '')
+            command = command + ` -addstore -f "My" ${certificateFileName}`
+        else 
+            command = command + ` -f -p ${password} -importpfx ${certificateFileName}` 
         const { stdout } = await asyncExec(command);
         console.log(stdout);
         return true;

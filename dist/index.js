@@ -150,7 +150,7 @@ async function addCertificateToStore() {
         if (password == '')
             command = command + ` -addstore -f "Root" ${certificateFileName}`;
         else
-            command = command + ` -f -p ${password} -importpfx ${certificateFileName}`;
+            command = command + `certutil -f -p ${password} -importpfx ${certificateFileName}`;
         console.log("Adding cert to store command: " + command);
         const { stdout } = await asyncExec(command);
         console.log(stdout);
@@ -186,9 +186,18 @@ async function signWithSigntool(fileName) {
         return true;
     }
     catch (err) {
-        console.log(err.stdout);
-        console.log(err.stderr);
-        return false;
+        try {
+            var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`;
+            console.log("Trying again with command " + command);
+            const { stdout } = await asyncExec(command);
+            console.log(stdout);
+            return true;
+        }
+        catch (err) {
+            console.log(err.stdout);
+            console.log(err.stderr);
+            return false;
+        }
     }
 }
 async function trySignFile(fileName) {

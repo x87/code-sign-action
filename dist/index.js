@@ -141,7 +141,7 @@ async function createCertificatePfx() {
     }
     const password = core.getInput('password');
     if (password == '')
-        certificateFileName = certificateFileName + '.cer';
+        certificateFileName = certificateFileName + '.crt';
     else
         certificateFileName = certificateFileName + '.pfx';
     console.log(`Writing ${certificate.length} bytes to ${certificateFileName}.`);

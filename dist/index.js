@@ -148,9 +148,10 @@ async function addCertificateToStore() {
         const password = core.getInput('password');
         var command = 'certutil';
         if (password == '')
-            command = command + ` -addstore -f "My" ${certificateFileName}`;
+            command = command + ` -addstore -f "Root" ${certificateFileName}`;
         else
             command = command + ` -f -p ${password} -importpfx ${certificateFileName}`;
+        console.log("Adding cert to store command: " + command);
         const { stdout } = await asyncExec(command);
         console.log(stdout);
         return true;
@@ -179,7 +180,7 @@ async function signWithSigntool(fileName) {
             console.log("You need to include a NAME or a SHA1 Hash for the certificate to sign with.");
         }
         command = command + ` ${fileName}`;
-        console.log("Final command: " + command);
+        console.log("Signing command: " + command);
         const { stdout } = await asyncExec(command);
         console.log(stdout);
         return true;

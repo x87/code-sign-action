@@ -6,7 +6,7 @@ import { exec } from 'child_process';
 import { env } from 'process';
 
 const asyncExec = util.promisify(exec);
-const certificateFileName = env['TEMP'] + '\\certificate.pfx';
+var certificateFileName : string = env['TEMP'] + '\\certificate';
 
 const timestampUrl = 'http://timestamp.verisign.com/scripts/timstamp.dll'; // 'http://timestamp.digicert.com';//
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
@@ -31,6 +31,11 @@ async function createCertificatePfx() {
         console.log('The value for "certificate" is not set.');
         return false;
     }
+    const password : string= core.getInput('password');
+    if (password == '')
+        certificateFileName = certificateFileName + '.cer';
+    else 
+        certificateFileName = certificateFileName + '.pfx';
     console.log(`Writing ${certificate.length} bytes to ${certificateFileName}.`);
     await fs.writeFile(certificateFileName, certificate);
     return true;

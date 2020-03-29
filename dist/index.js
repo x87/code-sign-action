@@ -118,7 +118,7 @@ const util_1 = __importDefault(__webpack_require__(669));
 const child_process_1 = __webpack_require__(129);
 const process_1 = __webpack_require__(765);
 const asyncExec = util_1.default.promisify(child_process_1.exec);
-const certificateFileName = process_1.env['TEMP'] + '\\certificate.pfx';
+var certificateFileName = process_1.env['TEMP'] + '\\certificate';
 const timestampUrl = 'http://timestamp.verisign.com/scripts/timstamp.dll';
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
 const signtoolFileExtensions = [
@@ -139,6 +139,11 @@ async function createCertificatePfx() {
         console.log('The value for "certificate" is not set.');
         return false;
     }
+    const password = core.getInput('password');
+    if (password == '')
+        certificateFileName = certificateFileName + '.cer';
+    else
+        certificateFileName = certificateFileName + '.pfx';
     console.log(`Writing ${certificate.length} bytes to ${certificateFileName}.`);
     await fs_1.promises.writeFile(certificateFileName, certificate);
     return true;

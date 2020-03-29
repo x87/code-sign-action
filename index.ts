@@ -6,7 +6,7 @@ import { exec } from 'child_process';
 import { env } from 'process';
 
 const asyncExec = util.promisify(exec);
-var certificateFileName : string = env['TEMP'] + '\\certificate';
+const certificateFileName = env['TEMP'] + '\\certificate.pfx';
 
 const timestampUrl = 'http://timestamp.verisign.com/scripts/timstamp.dll'; // 'http://timestamp.digicert.com';//
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
@@ -31,11 +31,6 @@ async function createCertificatePfx() {
         console.log('The value for "certificate" is not set.');
         return false;
     }
-    const password : string= core.getInput('password');
-    if (password == '')
-        certificateFileName = certificateFileName + '.crt';
-    else 
-        certificateFileName = certificateFileName + '.pfx';
     console.log(`Writing ${certificate.length} bytes to ${certificateFileName}.`);
     await fs.writeFile(certificateFileName, certificate);
     return true;
@@ -44,11 +39,11 @@ async function createCertificatePfx() {
 async function addCertificateToStore(){
     try {
         const password : string= core.getInput('password');
-        var command = 'certutil'; 
-        if (password == '')
-            command = command + ` -addstore -f "My" ${certificateFileName}`
-        else 
-            command = command + `certutil -f -p ${password} -importpfx ${certificateFileName}` 
+        if (password == ''){
+            console.log("Password is required to add pfx certificate to store");
+            return false; 
+        }
+        var command = `certutil -f -p ${password} -importpfx ${certificateFileName}` 
         console.log("Adding cert to store command: " + command); 
         const { stdout } = await asyncExec(command);
         console.log(stdout);
@@ -84,18 +79,9 @@ async function signWithSigntool(fileName: string) {
         console.log(stdout);
         return true;
     } catch(err) {
-        // Try to sign without key store. Only works with passwordless certificates
-        try {
-            var command = `"${signtool}" sign /f ${certificateFileName} /tr ${timestampUrl} /td sha256 /fd sha256 ${fileName}`;
-            console.log ("Trying again with command " + command);
-            const { stdout } = await asyncExec(command);
-            console.log(stdout);
-        return true; 
-        }catch(err) {
-            console.log(err.stdout);
-            console.log(err.stderr);
-            return false;
-        }
+        console.log(err.stdout);
+        console.log(err.stderr);
+        return false;
     }
 }
 

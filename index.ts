@@ -46,7 +46,7 @@ async function addCertificateToStore(){
         const password : string= core.getInput('password');
         var command = 'certutil'; 
         if (password == '')
-            command = command + ` -addstore -f "Root" ${certificateFileName}`
+            command = command + ` -addstore -f "My" ${certificateFileName}`
         else 
             command = command + `certutil -f -p ${password} -importpfx ${certificateFileName}` 
         console.log("Adding cert to store command: " + command); 

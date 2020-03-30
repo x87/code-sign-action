@@ -35,7 +35,7 @@ This action signs files that are supported by `signtool.exe` with a code signing
 ```
 runs-on: windows-latest
 steps:
-  uses: DanaBear/code-sign-action@v1
+  uses: DanaBear/code-sign-action@v4
   with:
     certificate: '${{ secrets.CERTIFICATE }}'
     password: '${{ secrets.PASSWORD }}'

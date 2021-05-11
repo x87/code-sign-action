@@ -51,6 +51,7 @@ steps:
     password: '${{ secrets.PASSWORD }}'
     certificatesha1: '${{ secrets.CERTHASH }}'
     certificatename: '${{ secrets.CERTNAME }}'
+    timestampUrl: 'http://timestamp.digicert.com'
     folder: 'files'
     recursive: true
 ```

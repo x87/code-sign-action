@@ -1,8 +1,8 @@
-name: 'Code sign a file with pfx certificate'
+name: 'Code sign a file in Windows using pfx certificate'
 description: 'Sign a file with a pfx certificate.'
 branding:
   icon: 'award'
-  color: 'green'
+  color: 'blue'
 inputs:
   certificate:
     description: 'The base64 encoded certificate.'

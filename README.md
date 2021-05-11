@@ -1,4 +1,4 @@
-Thank you to [Dirk Lemstra](https://github.com/dlemstra/code-sign-action) for providing a base for me to create this action. 
+Thank you to [Gateway Apps](https://github.com/gatewayapps/code-sign-action) for providing a base for me to create this action. 
 
 # Code sign a file
 
@@ -9,6 +9,12 @@ This action signs files that are supported by `signtool.exe` with a code signing
 ### `certificate`
 
 **Required** The base64 encoded certificate.
+
+to get the base 64 encoded certificate of the PFX file, run the following in powershell:
+```
+$fileContentBytes = get-content 'YOURFILEPATH.pfx' -Encoding Byte
+[System.Convert]::ToBase64String($fileContentBytes)
+```
 
 ### `password`
 
@@ -39,7 +45,7 @@ This action signs files that are supported by `signtool.exe` with a code signing
 ```
 runs-on: windows-latest
 steps:
-  uses: DanaBear/code-sign-action@v4
+  uses: markeytos/code-sign-action@v1
   with:
     certificate: '${{ secrets.CERTIFICATE }}'
     password: '${{ secrets.PASSWORD }}'

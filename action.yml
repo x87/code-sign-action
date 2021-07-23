@@ -1,4 +1,4 @@
-name: 'Code sign a file in Windows using pfx certificate'
+name: 'Windows signtool.exe code sign action'
 description: 'Sign a file with a pfx certificate.'
 branding:
   icon: 'award'

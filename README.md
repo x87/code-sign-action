@@ -1,4 +1,4 @@
-Thank you to [Gateway Apps](https://github.com/gatewayapps/code-sign-action) for providing a base for me to create this action. 
+Thank you to [keytos](https://github.com/markeytos/code-sign-action) for providing a base for me to create this action. 
 
 # Code sign a file
 
@@ -38,14 +38,14 @@ $fileContentBytes = get-content 'YOURFILEPATH.pfx' -Encoding Byte
 
 ### `timestampUrl`
 
-**Optional** Url of the timestamp server.  Default is 'http://timestamp.verisign.com/scripts/timstamp.dll'
+**Optional** Url of the timestamp server.  Default is 'http://timestamp.digicert.com'
 
 ## Example usage
 
 ```
 runs-on: windows-latest
 steps:
-  uses: markeytos/code-sign-action@v1
+  uses: skymatic/code-sign-action@v1
   with:
     certificate: '${{ secrets.CERTIFICATE }}'
     password: '${{ secrets.PASSWORD }}'

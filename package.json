@@ -8,21 +8,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/markeytos/code-sign-action.git"
+    "url": "git+https://github.com/skymatic/code-sign-action.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/markeytos/code-sign-action/issues"
+    "url": "https://github.com/skymatic/code-sign-action/issues"
   },
-  "homepage": "https://github.com/markeytos/code-sign-action#readme",
+  "homepage": "https://github.com/skymatic/code-sign-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.6"
+    "@actions/core": "^1.4.0",
+    "@actions/github": "^5.0.0"
   },
   "devDependencies": {
-    "@types/node": "^12.11.1",
-    "@zeit/ncc": "^0.20.5",
-    "typescript": "^3.6.4"
+    "@types/node": "^12.12.6",
+    "@vercel/ncc": "^0.29.0",
+    "typescript": "^4.1.3"
   }
 }

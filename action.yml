@@ -25,6 +25,7 @@ inputs:
   timestampUrl:
     description: 'URL of the timestamp server'
     required: false
+    default: 'http://timestamp.digicert.com'
 
 runs:
   using: 'node12'

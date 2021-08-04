@@ -36,6 +36,12 @@ $fileContentBytes = get-content 'YOURFILEPATH.pfx' -Encoding Byte
 
 **Optional** Recursively search for DLL files.
 
+
+### `description`
+
+**Optional** Description of the signed content ([signtool /d flag](https://docs.microsoft.com/en-us/dotnet/framework/tools/signtool-exe#sign-command-options)).
+
+
 ### `timestampUrl`
 
 **Optional** Url of the timestamp server.  Default is 'http://timestamp.digicert.com'
@@ -51,6 +57,7 @@ steps:
     password: '${{ secrets.PASSWORD }}'
     certificatesha1: '${{ secrets.CERTHASH }}'
     certificatename: '${{ secrets.CERTNAME }}'
+    description: 'My App'
     timestampUrl: 'http://timestamp.digicert.com'
     folder: 'files'
     recursive: true

@@ -22,6 +22,9 @@ inputs:
   certificatename:
     description: 'The Name of the certificate'
     required: false
+  description:
+    description: 'Description of the signed content (signtool /d flag)'
+    required: false
   timestampUrl:
     description: 'URL of the timestamp server'
     required: false

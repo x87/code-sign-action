@@ -72,6 +72,11 @@ async function signWithSigntool(fileName: string) {
             vitalParameterIncluded = true; 
             command = command + ` /n "${name}"`
         }
+        const desc : string= core.getInput('description');
+        if (desc != ''){
+            vitalParameterIncluded = true; 
+            command = command + ` /d "${desc}"`
+        }
         if (!vitalParameterIncluded){
             console.log("You need to include a NAME or a SHA1 Hash for the certificate to sign with.")
         }

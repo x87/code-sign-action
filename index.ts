@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { promises as fs } from 'fs';
 import path from 'path';
 import util from 'util';
-import { exec } from 'child_process';
+import { ChildProcess, exec } from 'child_process';
 import { env } from 'process';
 
 const asyncExec = util.promisify(exec);
@@ -47,8 +47,15 @@ async function addCertificateToStore(){
         console.log(stdout);
         return true;
     } catch(err) {
-        console.log(err.stdout);
-        console.log(err.stderr);
+        if (err instanceof Error) {
+            console.log(err.message);
+        }
+        else if( err instanceof ChildProcess ) {
+            console.log(err.stdout);
+            console.log(err.stderr);
+        } else {
+            console.log('Unknown error thrown', err)
+        }
         return false;
     }
 }
@@ -86,8 +93,15 @@ async function signWithSigntool(fileName: string) {
         console.log(stdout);
         return true;
     } catch(err) {
-        console.log(err.stdout);
-        console.log(err.stderr);
+        if (err instanceof Error) {
+            console.log(err.message);
+        }
+        else if( err instanceof ChildProcess ) {
+            console.log(err.stdout);
+            console.log(err.stderr);
+        } else {
+            console.log('Unknown error thrown', err)
+        }
         return false;
     }
 }

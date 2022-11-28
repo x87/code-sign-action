@@ -14,10 +14,10 @@ inputs:
     description: 'Recursively search for supported files.'
     required: false
   password:
-    description: 'The password'
-    required: false
+    description: 'Password to decrypt and import the certificate'
+    required: true
   certificatesha1:
-    description: 'The sha1 or fingerprint of the certification'
+    description: 'The sha1 or fingerprint of the certificate'
     required: false
   certificatename:
     description: 'The Name of the certificate'

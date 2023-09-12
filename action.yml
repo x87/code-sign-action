@@ -1,5 +1,5 @@
-name: 'Windows signtool.exe code sign action'
-description: 'Sign a file with a pfx certificate.'
+name: 'Windows signtool.exe code sign action V2'
+description: 'Sign a file with a pfx certificate. V2'
 branding:
   icon: 'award'
   color: 'blue'

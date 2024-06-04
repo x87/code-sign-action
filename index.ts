@@ -120,7 +120,15 @@ async function* getFiles(folder: string, recursive: boolean): any {
 }
 
 async function signFiles() {
-    const folder = core.getInput('folder', { required: true });
+    const folder = core.getInput('folder');
+    const filename = core.getInput('filename');
+    if (!filename && !folder) {
+        throw new Error('Either filename or folder must be set.');
+    }
+    if (filename) {
+        await trySignFile(await getSigntoolLocation(), filename);
+        return;
+    }
     const recursive = core.getInput('recursive') == 'true';
     const signtool = await getSigntoolLocation()
     for await (const file of getFiles(folder, recursive)) {

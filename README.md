@@ -28,9 +28,13 @@ $fileContentBytes = get-content 'YOURFILEPATH.pfx' -Encoding Byte
 
 **Required** The name of the certificate. This and/or the `certificatesha1` is required for the signing to be successful. 
 
+### `filename`
+
+**Optional** The file to sign. Either this or `folder` is required.
+
 ### `folder`
 
-**Required** The folder that contains the libraries to sign.
+**Optional** The folder that contains the libraries to sign. Either this or `filename` is required.
 
 ### `recursive`
 

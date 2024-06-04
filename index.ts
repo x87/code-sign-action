@@ -97,10 +97,7 @@ async function signWithSigntool(signtool: string, fileName: string) {
 
 async function trySignFile(signtool: string, fileName: string) {
     console.log(`Signing ${fileName}.`);
-    const extension = path.extname(fileName);
-    if (signtoolFileExtensions.includes(extension)) {
-        await signWithSigntool(signtool, fileName);
-    }
+    await signWithSigntool(signtool, fileName);
 }
 
 async function* getFiles(folder: string, recursive: boolean): any {
@@ -132,7 +129,10 @@ async function signFiles() {
     const recursive = core.getInput('recursive') == 'true';
     const signtool = await getSigntoolLocation()
     for await (const file of getFiles(folder, recursive)) {
-        await trySignFile(signtool, file);
+        const extension = path.extname(file);
+        if (signtoolFileExtensions.includes(extension)) {
+            await trySignFile(signtool, file);
+        }
     }
 }
 

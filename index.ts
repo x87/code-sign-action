@@ -22,7 +22,8 @@ const signtoolFileExtensions = [
     '.dll', '.exe', '.sys', '.vxd',
     '.msix', '.msixbundle', '.appx',
     '.appxbundle', '.msi', '.msp',
-    '.msm', '.cab', '.ps1', '.psm1'
+    '.msm', '.cab', '.ps1', '.psm1',
+    '.cleo', '.asi'
 ];
 
 async function createCertificatePfx() {
